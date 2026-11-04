@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dissonance Lab</title>
+  <meta name="description" content="Interactive models of sensory dissonance (roughness): Plomp-Levelt, Sethares and critical-band models, timbre, chords and a listening experiment.">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <h1>Dissonance Lab</h1>
+    <p class="sub">A computational model of sensory dissonance, tested against listeners</p>
+    <nav role="tablist">
+      <button role="tab" data-tab="curve" aria-selected="true">Dissonance curve</button>
+      <button role="tab" data-tab="chords">Chords &amp; timbre</button>
+      <button role="tab" data-tab="experiment">Listening experiment</button>
+      <button role="tab" data-tab="about">How it works</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ===================================================== CURVE -->
+  <section id="tab-curve" class="tab active">
+    <p class="lead">Two tones sound rough when their partials fall inside the same critical band of the basilar membrane.
+      Summing that roughness over every pair of partials gives a <em>dissonance curve</em>. Its dips are the intervals
+      the model predicts will sound consonant. <strong>Click the curve to hear any interval.</strong></p>
+
+    <div class="controls">
+      <label>Timbre
+        <select id="c-timbre"></select>
+      </label>
+      <label>Model
+        <select id="c-model"></select>
+      </label>
+      <label>Lower note <span id="c-f0-val"></span>
+        <input id="c-f0" type="range" min="55" max="880" step="1" value="262">
+      </label>
+      <label>Partials <span id="c-n-val"></span>
+        <input id="c-n" type="range" min="1" max="16" step="1" value="6">
+      </label>
+      <label>Pseudo-octave (stretch) <span id="c-s-val"></span>
+        <input id="c-s" type="range" min="1.8" max="2.3" step="0.01" value="2">
+      </label>
+      <label>Range
+        <select id="c-range">
+          <option value="2.05">1 octave</option>
+          <option value="2.3" selected>Octave + M2</option>
+          <option value="4.1">2 octaves</option>
+        </select>
+      </label>
+      <label class="check"><input id="c-cmp" type="checkbox" checked> Overlay sine-tone curve</label>
+    </div>
+    <p class="hint" id="c-hint"></p>
+    <div id="c-chart" class="chart-box"></div>
+    <div class="legend">
+      <span><i class="sw main"></i>selected timbre</span>
+      <span><i class="sw cmp"></i>sine tones</span>
+      <span><i class="sw et"></i>12-TET semitones</span>
+      <span><i class="sw min"></i>predicted consonances (local minima)</span>
+    </div>
+    <h3>Predicted consonant intervals</h3>
+    <div id="c-minima" class="chips"></div>
+  </section>
+
+  <!-- ===================================================== CHORDS -->
+  <section id="tab-chords" class="tab">
+    <p class="lead">Unit 4 points out that orchestration changes how dissonant the <em>same notes</em> sound. This tab computes the total roughness
+      of a chord for every timbre so you can compare them. Try the Schoenberg <em>Farben</em> chord, or move a triad down into the bass register.</p>
+    <div class="controls">
+      <label class="grow">Notes (e.g. C4 E4 G4)
+        <input id="h-notes" type="text" value="C4 E4 G4" spellcheck="false">
+      </label>
+      <label>Preset
+        <select id="h-preset">
+          <option value="C4 E4 G4">Major triad</option>
+          <option value="C4 Eb4 G4">Minor triad</option>
+          <option value="C4 Eb4 Gb4">Diminished triad</option>
+          <option value="C4 E4 G#4">Augmented triad</option>
+          <option value="C4 E4 G4 Bb4">Dominant 7th</option>
+          <option value="C4 E4 G4 B4">Major 7th</option>
+          <option value="C2 E2 G2">Major triad, low register</option>
+          <option value="C3 G#3 B3 E4 A4">Schoenberg 'Farben' chord (Op. 16/3)</option>
+          <option value="C4 C#4 D4">Chromatic cluster</option>
+        </select>
+      </label>
+      <label>Model
+        <select id="h-model"></select>
+      </label>
+    </div>
+    <p class="hint" id="h-err"></p>
+    <div id="h-chart" class="chart-box"></div>
+    <p class="hint">Click a timbre to listen:</p>
+    <div id="h-play" class="chips"></div>
+  </section>
+
+  <!-- ===================================================== EXPERIMENT -->
+  <section id="tab-experiment" class="tab">
+    <div id="x-intro">
+      <p class="lead">This is a short listening test in the style of Kameoka &amp; Kuriyagawa (1969) and Malmberg (1918). You will hear two-note chords
+        and rate how <strong>pleasant (consonant)</strong> or <strong>unpleasant (dissonant)</strong> each one sounds. Your ratings are compared
+        with the model's predictions at the end. Use headphones and set a comfortable volume.</p>
+      <div class="controls">
+        <label>Participant ID
+          <input id="x-pid" type="text" placeholder="e.g. P01" spellcheck="false">
+        </label>
+        <label>Years of musical training
+          <input id="x-train" type="number" min="0" max="80" value="0">
+        </label>
+        <label>Timbre
+          <select id="x-timbre"></select>
+        </label>
+        <label>Repetitions per interval
+          <select id="x-reps"><option>1</option><option selected>2</option><option>3</option></select>
+        </label>
+      </div>
+      <button id="x-test" class="secondary">Play test sound</button>
+      <button id="x-start" class="primary">Start experiment</button>
+      <p class="hint">Nothing is uploaded. At the end you can download your responses as a CSV file and put it in <code>data/experiment/</code> for analysis.</p>
+    </div>
+
+    <div id="x-trial" hidden>
+      <div class="progress"><div id="x-bar"></div></div>
+      <p class="trialno" id="x-count"></p>
+      <button id="x-replay" class="secondary">Replay (R)</button>
+      <p class="q">How pleasant does this chord sound?</p>
+      <div class="scale" id="x-scale"></div>
+      <div class="scale-ends"><span>1 = very unpleasant / dissonant</span><span>7 = very pleasant / consonant</span></div>
+    </div>
+
+    <div id="x-done" hidden>
+      <h2>Your results</h2>
+      <div class="stats" id="x-stats"></div>
+      <div id="x-chart" class="chart-box"></div>
+      <div class="legend">
+        <span><i class="sw bar"></i>your mean rating</span>
+        <span><i class="sw main"></i>model-predicted consonance (rescaled)</span>
+      </div>
+      <button id="x-dl" class="primary">Download CSV</button>
+      <button id="x-again" class="secondary">Run again</button>
+    </div>
+  </section>
+
+  <!-- ===================================================== ABOUT -->
+  <section id="tab-about" class="tab prose">
+    <h2>Sensory dissonance as critical-band interaction</h2>
+    <p>When two sinusoids are close in frequency they excite overlapping regions of the basilar membrane. Below about 15-20 Hz apart we hear
+      <em>beats</em>. Further apart, the fluctuation is too fast to follow and is heard as <em>roughness</em>. Once the tones are more than about one critical
+      bandwidth apart, they are resolved and the roughness disappears. Plomp and Levelt (1965) measured this curve and proposed that the dissonance of complex
+      tones is the sum of the roughness between every pair of their partials.</p>
+
+    <h3>Models implemented</h3>
+    <ul>
+      <li><strong>Sethares (1993).</strong> A parametric fit to the Plomp-Levelt curve:
+        <code>d = min(a₁,a₂)·(e<sup>−3.51·s·Δf</sup> − e<sup>−5.75·s·Δf</sup>)</code>, with <code>s = 0.24 / (0.0207·f<sub>min</sub> + 18.96)</code>
+        so that the peak follows the critical band.</li>
+      <li><strong>Hutchinson &amp; Knopoff (1978) / Parncutt (1989).</strong> <code>g(y) = (e·4y·e<sup>−4y</sup>)²</code>, where y is the frequency difference
+        measured in critical bandwidths. The weights are a₁a₂ and the total is normalised by Σa². Two bandwidth scales are available:
+        <ul>
+          <li>Zwicker &amp; Terhardt (1980): <code>CB = 25 + 75(1 + 1.4(f/1000)²)<sup>0.69</sup></code></li>
+          <li>Glasberg &amp; Moore (1990) ERB, as in Unit 4: <code>ERB = 24.7(4.37f/1000 + 1)</code></li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>What the model predicts</h3>
+    <ul>
+      <li><strong>Timbre matters.</strong> Pure tones show no dissonance past about a minor third. Harmonic tones produce dips at simple ratios
+        (2/1, 3/2, 4/3, 5/4, 5/3, 6/5), because that is where their upper partials line up.</li>
+      <li><strong>Tuning follows timbre</strong> (Sethares 2005). Stretch the partials and the "octave" dip moves with them. In this model the octave is consonant only because
+        harmonic spectra make it so.</li>
+      <li><strong>Register matters.</strong> Critical bands are wider in the bass, so the same interval is rougher when played low. This fits the
+        orchestration rule of thumb about keeping thirds out of the low register.</li>
+      <li><strong>Bottom-up only.</strong> The model leaves out top-down factors (Unit 2, Unit 4): enculturation, voice-leading context,
+        stream segregation (Wright &amp; Bregman), and Terhardt's distinction between sensory and musical consonance. Where it disagrees with listeners,
+        those factors are the likely cause.</li>
+    </ul>
+
+    <h3>Testing it</h3>
+    <p>The Python script <code>python/analysis/validate.py</code> correlates each model's predicted consonance with Malmberg's (1918) ranking of the
+      12 dyads and with the ratings you collect in the <em>Listening experiment</em> tab. It also compares them with a simple-ratio (Tenney height) baseline.</p>
+
+    <h3>References</h3>
+    <ul class="refs">
+      <li>Glasberg, B. R., &amp; Moore, B. C. J. (1990). Derivation of auditory filter shapes from notched-noise data. <em>Hearing Research, 47</em>, 103-138.</li>
+      <li>Hutchinson, W., &amp; Knopoff, L. (1978). The acoustic component of Western consonance. <em>Interface, 7</em>, 1-29.</li>
+      <li>Kameoka, A., &amp; Kuriyagawa, M. (1969). Consonance theory, parts I and II. <em>JASA, 45</em>, 1451-1469.</li>
+      <li>Malmberg, C. F. (1918). The perception of consonance and dissonance. <em>Psychological Monographs, 25</em>, 93-133.</li>
+      <li>Parncutt, R. (1989). <em>Harmony: A Psychoacoustical Approach.</em> Springer.</li>
+      <li>Plomp, R., &amp; Levelt, W. J. M. (1965). Tonal consonance and critical bandwidth. <em>JASA, 38</em>, 548-560.</li>
+      <li>Sethares, W. A. (1993). Local consonance and the relationship between timbre and scale. <em>JASA, 94</em>, 1218-1228.</li>
+      <li>Sethares, W. A. (2005). <em>Tuning, Timbre, Spectrum, Scale</em> (2nd ed.). Springer.</li>
+      <li>Terhardt, E. (1974). Pitch, consonance, and harmony. <em>JASA, 55</em>, 1061-1069.</li>
+      <li>Zwicker, E., &amp; Terhardt, E. (1980). Analytical expressions for critical-band rate and critical bandwidth. <em>JASA, 68</em>, 1523-1525.</li>
+    </ul>
+  </section>
+</main>
+
+<footer class="wrap foot">Dissonance Lab · final project for Music Perception &amp; Cognition</footer>
+
+<script src="assets/model.js"></script>
+<script src="assets/audio.js"></script>
+<script src="assets/plot.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

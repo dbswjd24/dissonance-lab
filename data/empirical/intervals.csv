@@ -1,0 +1,13 @@
+interval,name,semitones,just_p,just_q,malmberg_rank
+m2,minor second,1,16,15,12
+M2,major second,2,9,8,10
+m3,minor third,3,6,5,7
+M3,major third,4,5,4,4
+P4,perfect fourth,5,4,3,5
+TT,tritone,6,45,32,8
+P5,perfect fifth,7,3,2,2
+m6,minor sixth,8,8,5,6
+M6,major sixth,9,5,3,3
+m7,minor seventh,10,16,9,9
+M7,major seventh,11,15,8,11
+P8,octave,12,2,1,1
