@@ -4,275 +4,217 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dissonance Lab</title>
-  <meta name="description" content="Why do some notes clash? An interactive model of sensory dissonance and a short listening study.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta name="description" content="A roughness model of sensory dissonance, with a listening study comparing its predictions to listeners.">
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-<header class="top">
-  <div class="wrap bar">
-    <a class="logo" href="#" data-go="home"><span class="dot"></span>dissonance lab</a>
-    <nav>
-      <button data-go="explore">Explore</button>
-      <button data-go="chords">Chords</button>
-      <button data-go="study" class="cta">Take the study</button>
-      <button data-go="about">About</button>
-    </nav>
-  </div>
+<header class="wrap masthead">
+  <h1><a href="#" data-go="home">Dissonance Lab</a></h1>
+  <p class="byline">Eileen Hwang · Music Perception &amp; Cognition final project · Fall 2026</p>
+  <nav>
+    <a href="#" data-go="home">Overview</a>
+    <a href="#explore" data-go="explore">Curve</a>
+    <a href="#chords" data-go="chords">Chords</a>
+    <a href="#study" data-go="study">Study</a>
+    <a href="#about" data-go="about">Notes</a>
+  </nav>
 </header>
 
 <main class="wrap">
 
-  <!-- ===================================================== HOME -->
+  <!-- ===================================================== OVERVIEW -->
   <section id="v-home" class="view active">
-    <div class="hero">
-      <div class="blobs" aria-hidden="true"><i></i><i></i><i></i></div>
-      <p class="kicker">a music cognition project</p>
-      <h1>Why do some notes sound <span class="hl-peach">smooth</span> and others <span class="hl-lav">clash</span>?</h1>
-      <p class="lede">Is it your ears or your experience? This site models what happens in the inner ear when two notes overlap,
-        then checks those predictions against what people actually hear.</p>
-      <div class="row">
-        <button class="btn primary" data-go="study">Take the 3-minute study</button>
-        <button class="btn ghost" data-go="explore">Play with the model</button>
-      </div>
-    </div>
-    <div class="cards three">
-      <button class="card tint-mint" data-go="explore">
-        <span class="num">01</span><h3>Explore</h3><p>Hear any interval and see how rough the model thinks it is.</p>
-      </button>
-      <button class="card tint-sky" data-go="chords">
-        <span class="num">02</span><h3>Chords</h3><p>Play the same chord on different instruments. Timbre changes the clash.</p>
-      </button>
-      <button class="card tint-peach" data-go="study">
-        <span class="num">03</span><h3>Study</h3><p>Rate a few sounds. Your answers are compared with the model.</p>
-      </button>
-    </div>
+    <p>Some intervals sound smooth and others sound harsh. One explanation is mechanical. Two partials that land close together on the basilar membrane
+      interfere, and we hear that as roughness (Plomp &amp; Levelt, 1965). The other explanation is learned. We like the intervals our musical culture taught us to like.</p>
+    <p>This site implements the first explanation as a model and tests it against people. If the model matches non-musicians better than musicians,
+      that suggests training adds something on top of the ear.</p>
+
+    <h2>What's here</h2>
+    <dl class="index">
+      <dt><a href="#explore" data-go="explore">Curve</a></dt>
+      <dd>Roughness of a two-note interval as the upper note slides up an octave. Click the plot to hear any point.</dd>
+      <dt><a href="#chords" data-go="chords">Chords</a></dt>
+      <dd>The same chord with different timbres. Brighter sounds have more partials, so more of them collide.</dd>
+      <dt><a href="#study" data-go="study">Study</a></dt>
+      <dd>A short listening task (about 3 minutes). You rate 12 intervals and see how your ratings line up with the model.</dd>
+      <dt><a href="#about" data-go="about">Notes</a></dt>
+      <dd>Equations, what the model leaves out, and references.</dd>
+    </dl>
+
+    <p class="aside">Code and analysis scripts are in the project repository. The Python version of the model produces the figures used in the paper.</p>
   </section>
 
-  <!-- ===================================================== EXPLORE -->
+  <!-- ===================================================== CURVE -->
   <section id="v-explore" class="view">
-    <h2>Explore the dissonance curve</h2>
-    <p class="sub">The model adds up the roughness between every pair of partials. Dips in the line are the intervals it predicts will sound smooth.
-      <strong>Tap anywhere on the curve to hear it.</strong></p>
+    <h2>Dissonance curve</h2>
+    <p>Total roughness of a dyad, summed over every pair of partials. Local minima are where the model expects the interval to sound consonant.</p>
 
-    <div class="panel">
-      <p class="label">Sound</p>
-      <div class="pills" id="c-timbres"></div>
-      <div class="slider">
-        <label for="c-f0">Lower note</label>
-        <input id="c-f0" type="range" min="55" max="880" step="1" value="262">
-        <output id="c-f0-val"></output>
-      </div>
-      <details class="more">
-        <summary>More settings</summary>
-        <div class="grid">
-          <label>Model <select id="c-model"></select></label>
-          <label>Range
-            <select id="c-range">
-              <option value="2.05">1 octave</option>
-              <option value="2.3" selected>Octave + a bit</option>
-              <option value="4.1">2 octaves</option>
-            </select>
-          </label>
-          <label>Partials <output id="c-n-val"></output><input id="c-n" type="range" min="1" max="16" step="1" value="6"></label>
-          <label>Stretch <output id="c-s-val"></output><input id="c-s" type="range" min="1.8" max="2.3" step="0.01" value="2"></label>
-          <label class="check"><input id="c-cmp" type="checkbox" checked> Compare with pure tones</label>
-        </div>
-        <p class="tiny" id="c-hint"></p>
+    <form class="controls" onsubmit="return false">
+      <label>Timbre <select id="c-timbre"></select></label>
+      <label>Lower note <input id="c-f0" type="range" min="55" max="880" step="1" value="262"> <output id="c-f0-val"></output></label>
+      <details>
+        <summary>Other settings</summary>
+        <label>Model <select id="c-model"></select></label>
+        <label>Range
+          <select id="c-range">
+            <option value="2.05">1 octave</option>
+            <option value="2.3" selected>1 octave + M2</option>
+            <option value="4.1">2 octaves</option>
+          </select>
+        </label>
+        <label>Partials <input id="c-n" type="range" min="1" max="16" step="1" value="6"> <output id="c-n-val"></output></label>
+        <label>Pseudo-octave <input id="c-s" type="range" min="1.8" max="2.3" step="0.01" value="2"> <output id="c-s-val"></output></label>
+        <label class="check"><input id="c-cmp" type="checkbox" checked> show sine-tone curve for comparison</label>
+        <p class="small" id="c-hint"></p>
       </details>
-    </div>
+    </form>
 
-    <div class="panel chart" id="c-chart"></div>
-    <div class="legend">
-      <span><i class="sw main"></i>this sound</span>
-      <span><i class="sw cmp"></i>pure tones</span>
-      <span><i class="sw min"></i>smooth spots</span>
-    </div>
+    <figure>
+      <div id="c-chart"></div>
+      <figcaption><b>Fig. 1.</b> Roughness (solid) against frequency ratio for the selected timbre. The dashed line is the same model with pure tones, scaled to the same peak.
+        Light gray lines mark equal-tempered semitones; red lines mark local minima. Click anywhere on the plot to hear that interval.</figcaption>
+    </figure>
 
-    <h3>Sounds smooth at…</h3>
-    <div id="c-minima" class="chips"></div>
+    <h3>Minima</h3>
+    <table class="data" id="c-minima"></table>
   </section>
 
   <!-- ===================================================== CHORDS -->
   <section id="v-chords" class="view">
-    <h2>Same notes, different instruments</h2>
-    <p class="sub">Bright sounds have more upper partials, so more of them collide. Pick a chord and compare instruments.</p>
+    <h2>Chords and timbre</h2>
+    <p>Unit 4 used Schoenberg's <i>Farben</i> chord to show that orchestration changes dissonance. Here the notes stay the same and only the spectrum changes.</p>
 
-    <div class="panel">
-      <p class="label">Chord</p>
-      <div class="pills" id="h-presets"></div>
-      <details class="more">
-        <summary>Type your own notes</summary>
-        <div class="grid">
-          <label class="wide">Notes (e.g. C4 E4 G4) <input id="h-notes" type="text" value="C4 E4 G4" spellcheck="false"></label>
-          <label>Model <select id="h-model"></select></label>
-        </div>
-        <p class="tiny warn" id="h-err"></p>
-      </details>
-    </div>
+    <form class="controls" onsubmit="return false">
+      <label>Chord <select id="h-preset"></select></label>
+      <label>Notes <input id="h-notes" type="text" value="C4 E4 G4" spellcheck="false"></label>
+      <label>Model <select id="h-model"></select></label>
+      <p class="small warn" id="h-err"></p>
+    </form>
 
-    <div class="panel chart" id="h-chart"></div>
-    <p class="label">Tap to listen</p>
-    <div id="h-play" class="chips"></div>
+    <figure>
+      <div id="h-chart"></div>
+      <figcaption><b>Fig. 2.</b> Total roughness of the chord for each timbre.</figcaption>
+    </figure>
+    <p class="small">Listen: <span id="h-play" class="inline-links"></span></p>
   </section>
 
   <!-- ===================================================== STUDY -->
   <section id="v-study" class="view">
-    <div class="study">
+    <h2>Listening study</h2>
 
-      <!-- step: consent -->
-      <div class="step" data-step="consent">
-        <div class="steps"><b class="on"></b><b></b><b></b><b></b><b></b></div>
-        <h2>Welcome!</h2>
-        <p>In this short study you'll hear pairs of notes played together and rate how <strong>pleasant</strong> each one sounds.</p>
-        <ul class="facts">
-          <li><span>⏱</span>About 3 minutes</li>
-          <li><span>🎧</span>Headphones recommended</li>
-          <li><span>🔒</span>Anonymous. Nothing is uploaded</li>
-          <li><span>✋</span>You can stop at any time</li>
-        </ul>
-        <label class="agree"><input type="checkbox" id="s-agree"> I'm 18 or older and agree to take part.</label>
-        <button class="btn primary" id="s-consent" disabled>Continue</button>
-        <details class="more researcher">
-          <summary>Researcher settings</summary>
-          <div class="grid">
-            <label>Timbre <select id="x-timbre"></select></label>
-            <label>Repetitions <select id="x-reps"><option>1</option><option selected>2</option><option>3</option></select></label>
-          </div>
-        </details>
-      </div>
+    <div class="step" data-step="consent">
+      <p class="stepno">Step 1 of 5 · Information</p>
+      <p>You'll hear two notes played together about two dozen times and rate how pleasant each one sounds on a scale from 1 to 7. It takes about three minutes.
+        There are no right answers. Headphones help but aren't required.</p>
+      <p>Nothing is sent anywhere. At the end you can download your responses as a file. You can close the page at any point to stop.</p>
+      <label class="check"><input type="checkbox" id="s-agree"> I am 18 or older and agree to take part.</label>
+      <p><button class="btn" id="s-consent" disabled>Continue</button></p>
+      <details class="researcher">
+        <summary>Settings (for the experimenter)</summary>
+        <label>Timbre <select id="x-timbre"></select></label>
+        <label>Repetitions per interval <select id="x-reps"><option>1</option><option selected>2</option><option>3</option></select></label>
+      </details>
+    </div>
 
-      <!-- step: about you -->
-      <div class="step" data-step="about" hidden>
-        <div class="steps"><b class="on"></b><b class="on"></b><b></b><b></b><b></b></div>
-        <h2>A little about you</h2>
-        <div class="form">
-          <label>Participant code <span class="opt">(optional)</span>
-            <input id="x-pid" type="text" placeholder="e.g. P01" spellcheck="false"></label>
-          <label>Years of musical training (lessons, ensembles…)
-            <input id="x-train" type="number" min="0" max="80" value="0" inputmode="numeric"></label>
-          <fieldset>
-            <legend>Would you call yourself a musician?</legend>
-            <div class="seg" id="x-musician">
-              <button data-v="no">No</button><button data-v="somewhat">Somewhat</button><button data-v="yes">Yes</button>
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend>Are you wearing headphones?</legend>
-            <div class="seg" id="x-phones">
-              <button data-v="yes">Yes</button><button data-v="no">No, speakers</button>
-            </div>
-          </fieldset>
+    <div class="step" data-step="about" hidden>
+      <p class="stepno">Step 2 of 5 · About you</p>
+      <label>Participant code (optional) <input id="x-pid" type="text" placeholder="e.g. P01" spellcheck="false"></label>
+      <label>Years of formal musical training <input id="x-train" type="number" min="0" max="80" value="0" inputmode="numeric"></label>
+      <fieldset>
+        <legend>Would you describe yourself as a musician?</legend>
+        <div class="seg" id="x-musician">
+          <button data-v="no">No</button><button data-v="somewhat">Somewhat</button><button data-v="yes">Yes</button>
         </div>
-        <button class="btn primary" id="s-about" disabled>Continue</button>
-      </div>
-
-      <!-- step: sound check -->
-      <div class="step" data-step="check" hidden>
-        <div class="steps"><b class="on"></b><b class="on"></b><b class="on"></b><b></b><b></b></div>
-        <h2>Sound check</h2>
-        <p>Play the tone and adjust your volume until it's clear and comfortable.</p>
-        <button class="player" id="s-test" aria-label="Play test sound"><span></span></button>
-        <button class="btn primary" id="s-check" disabled>I can hear it clearly</button>
-      </div>
-
-      <!-- step: practice + trials -->
-      <div class="step" data-step="trial" hidden>
-        <div class="progress"><div id="x-bar"></div></div>
-        <p class="tag" id="x-count"></p>
-        <p class="practice-note" id="x-practice" hidden>Practice round: this one isn't recorded. There are no right or wrong answers.</p>
-        <button class="player big" id="x-replay" aria-label="Replay sound"><span></span></button>
-        <p class="tiny">tap the circle (or press R) to hear it again</p>
-        <h2 class="q">How pleasant does this sound?</h2>
-        <div class="scale" id="x-scale"></div>
-        <div class="ends"><span>very unpleasant</span><span>very pleasant</span></div>
-      </div>
-
-      <!-- step: break -->
-      <div class="step" data-step="break" hidden>
-        <h2>Halfway there 🎉</h2>
-        <p>Take a breath. Continue whenever you're ready.</p>
-        <button class="btn primary" id="s-resume">Keep going</button>
-      </div>
-
-      <!-- step: practice done -->
-      <div class="step" data-step="ready" hidden>
-        <div class="steps"><b class="on"></b><b class="on"></b><b class="on"></b><b class="on"></b><b></b></div>
-        <h2>Nice, you've got it.</h2>
-        <p>Now the real thing: <strong id="x-ntrials"></strong> sounds. Go with your first impression.</p>
-        <button class="btn primary" id="s-go">Start</button>
-      </div>
-
-      <!-- step: debrief -->
-      <div class="step" data-step="done" hidden>
-        <div class="steps"><b class="on"></b><b class="on"></b><b class="on"></b><b class="on"></b><b class="on"></b></div>
-        <h2>Thank you!</h2>
-        <p>You just rated the 12 basic two-note intervals. This study asks whether those judgments come from the ear
-          (<em>roughness</em> between overlapping partials) or from experience with music. Here's how your answers compare with the ear-based model.</p>
-        <div class="stats" id="x-stats"></div>
-        <div class="panel chart" id="x-chart"></div>
-        <div class="legend">
-          <span><i class="sw bar"></i>your average rating</span>
-          <span><i class="sw main"></i>model prediction</span>
+      </fieldset>
+      <fieldset>
+        <legend>What are you listening on?</legend>
+        <div class="seg" id="x-phones">
+          <button data-v="yes">Headphones</button><button data-v="no">Speakers</button>
         </div>
-        <div class="row">
-          <button class="btn primary" id="x-dl">Download my responses (CSV)</button>
-          <button class="btn ghost" id="x-again">Start over</button>
-        </div>
-        <p class="tiny">Running this as a researcher? Put the CSV files in <code>data/experiment/</code> and run <code>python/analysis/validate.py</code>.</p>
-      </div>
+      </fieldset>
+      <p><button class="btn" id="s-about" disabled>Continue</button></p>
+    </div>
+
+    <div class="step" data-step="check" hidden>
+      <p class="stepno">Step 3 of 5 · Volume</p>
+      <p>Play the test sound and set your volume so it is clear but comfortable.</p>
+      <p><button class="btn" id="s-test">Play test sound</button> <button class="btn" id="s-check" disabled>Sounds fine</button></p>
+    </div>
+
+    <div class="step" data-step="trial" hidden>
+      <p class="stepno"><span id="x-count"></span></p>
+      <div class="progress"><div id="x-bar"></div></div>
+      <p class="small" id="x-practice" hidden>Practice. This trial is not recorded.</p>
+      <p><button class="btn" id="x-replay">Play again</button> <span class="small">(or press R)</span></p>
+      <p class="q">How pleasant was that?</p>
+      <div class="scale" id="x-scale"></div>
+      <div class="ends"><span>1 very unpleasant</span><span>7 very pleasant</span></div>
+    </div>
+
+    <div class="step" data-step="ready" hidden>
+      <p class="stepno">Step 4 of 5 · Ready</p>
+      <p>That was the practice. The real set has <span id="x-ntrials"></span> sounds. Go with your first impression.</p>
+      <p><button class="btn" id="s-go">Begin</button></p>
+    </div>
+
+    <div class="step" data-step="break" hidden>
+      <p class="stepno">Break</p>
+      <p>Halfway done. Continue when you're ready.</p>
+      <p><button class="btn" id="s-resume">Continue</button></p>
+    </div>
+
+    <div class="step" data-step="done" hidden>
+      <p class="stepno">Step 5 of 5 · Done</p>
+      <p>Thanks for taking part. The study asks whether judgments like yours follow from roughness in the ear or from experience with music.
+        Below, your average rating for each interval is compared with the roughness model.</p>
+      <table class="data" id="x-stats"></table>
+      <figure>
+        <div id="x-chart"></div>
+        <figcaption><b>Fig. 3.</b> Bars: your mean rating per interval. Line: the model's predicted consonance, rescaled to 1–7.
+          ρ is Spearman's rank correlation; 1 means the same ordering.</figcaption>
+      </figure>
+      <p><button class="btn" id="x-dl">Download responses (.csv)</button> <button class="btn plain" id="x-again">Start over</button></p>
     </div>
   </section>
 
-  <!-- ===================================================== ABOUT -->
-  <section id="v-about" class="view prose">
-    <h2>How it works</h2>
-    <div class="panel">
-      <h3>Ear or experience?</h3>
-      <p>Cognitive science often asks how perception mixes <strong>bottom-up</strong> sensory signals with <strong>top-down</strong> knowledge.
-        Consonance is a clear test case. The sensory account says two partials that land in the same <em>critical band</em> of the
-        basilar membrane interact, and we hear that interaction as roughness (Plomp &amp; Levelt, 1965). The learning account says we find
-        intervals pleasant because our musical culture taught us to. This site builds the sensory model and tests it against listeners.</p>
-    </div>
-    <div class="panel">
-      <h3>The models</h3>
-      <ul>
-        <li><strong>Sethares (1993).</strong> <code>d = min(a₁,a₂)·(e<sup>−3.51·s·Δf</sup> − e<sup>−5.75·s·Δf</sup>)</code> with
-          <code>s = 0.24 / (0.0207·f<sub>min</sub> + 18.96)</code>.</li>
-        <li><strong>Hutchinson &amp; Knopoff (1978).</strong> <code>g(y) = (e·4y·e<sup>−4y</sup>)²</code>, where y is the frequency difference in critical bandwidths.
-          Uses either the Zwicker critical band, <code>25 + 75(1 + 1.4(f/1000)²)<sup>0.69</sup></code>, or the ERB, <code>24.7(4.37f/1000 + 1)</code>.</li>
-        <li><strong>Simple-ratio baseline.</strong> Tenney height, log₂(p·q), stands in for learned knowledge about interval ratios.</li>
-      </ul>
-    </div>
-    <div class="panel">
-      <h3>What it predicts</h3>
-      <ul>
-        <li>Pure tones stop clashing beyond about a minor third. Rich tones have smooth spots at simple ratios (2/1, 3/2, 4/3, 5/4).</li>
-        <li>Stretch the partials and the "octave" moves with them, so tuning follows timbre (Sethares, 2005).</li>
-        <li>The same interval is rougher low in the bass, where critical bands are wider.</li>
-        <li>It ignores context, training, and stream segregation. Where it misses, top-down factors are the likely cause.</li>
-      </ul>
-    </div>
-    <div class="panel refs">
-      <h3>References</h3>
-      <ul>
-        <li>Glasberg &amp; Moore (1990). Derivation of auditory filter shapes from notched-noise data. <em>Hearing Research, 47</em>.</li>
-        <li>Hutchinson &amp; Knopoff (1978). The acoustic component of Western consonance. <em>Interface, 7</em>.</li>
-        <li>Kameoka &amp; Kuriyagawa (1969). Consonance theory I &amp; II. <em>JASA, 45</em>.</li>
-        <li>Malmberg (1918). The perception of consonance and dissonance. <em>Psychological Monographs, 25</em>.</li>
-        <li>Plomp &amp; Levelt (1965). Tonal consonance and critical bandwidth. <em>JASA, 38</em>.</li>
-        <li>Sethares (1993). Local consonance and the relationship between timbre and scale. <em>JASA, 94</em>.</li>
-        <li>Sethares (2005). <em>Tuning, Timbre, Spectrum, Scale.</em> Springer.</li>
-        <li>Terhardt (1974). Pitch, consonance, and harmony. <em>JASA, 55</em>.</li>
-        <li>Zwicker &amp; Terhardt (1980). Analytical expressions for critical-band rate and critical bandwidth. <em>JASA, 68</em>.</li>
-      </ul>
-    </div>
+  <!-- ===================================================== NOTES -->
+  <section id="v-about" class="view">
+    <h2>Notes</h2>
+
+    <h3>Models</h3>
+    <p><b>Sethares (1993).</b> A fit to Plomp and Levelt's curve. For two partials with amplitudes a₁, a₂ and frequency difference Δf,</p>
+    <p class="eq">d = min(a₁, a₂) · ( e<sup>−3.51 s Δf</sup> − e<sup>−5.75 s Δf</sup> ),  s = 0.24 / (0.0207 f<sub>min</sub> + 18.96)</p>
+    <p><b>Hutchinson &amp; Knopoff (1978).</b> Roughness peaks at a quarter of a critical band:</p>
+    <p class="eq">g(y) = ( e · 4y · e<sup>−4y</sup> )²,  y = Δf / CB(f̄)</p>
+    <p>CB can be Zwicker and Terhardt's critical bandwidth, 25 + 75(1 + 1.4(f/1000)²)<sup>0.69</sup>, or Glasberg and Moore's ERB,
+      24.7(4.37f/1000 + 1), the formula given in Unit 4.</p>
+    <p><b>Ratio baseline.</b> Tenney height, log₂(p·q) for an interval p/q. It isn't a hearing model. It stands in for the idea that we judge
+      intervals by how simple their ratios are.</p>
+
+    <h3>What the model doesn't include</h3>
+    <ul>
+      <li>Context: the same dyad in a chord progression versus in isolation.</li>
+      <li>Stream segregation (Wright &amp; Bregman), which can mask dissonance between separate voices.</li>
+      <li>Training and enculturation. This is the part the study tries to measure.</li>
+      <li>Loudness, masking, and the ear's frequency response. Amplitudes are used as given.</li>
+    </ul>
+
+    <h3>References</h3>
+    <ol class="refs">
+      <li>Glasberg, B. R., &amp; Moore, B. C. J. (1990). Derivation of auditory filter shapes from notched-noise data. <i>Hearing Research, 47</i>, 103–138.</li>
+      <li>Hutchinson, W., &amp; Knopoff, L. (1978). The acoustic component of Western consonance. <i>Interface, 7</i>, 1–29.</li>
+      <li>Kameoka, A., &amp; Kuriyagawa, M. (1969). Consonance theory, parts I and II. <i>JASA, 45</i>, 1451–1469.</li>
+      <li>Malmberg, C. F. (1918). The perception of consonance and dissonance. <i>Psychological Monographs, 25</i>, 93–133.</li>
+      <li>Plomp, R., &amp; Levelt, W. J. M. (1965). Tonal consonance and critical bandwidth. <i>JASA, 38</i>, 548–560.</li>
+      <li>Sethares, W. A. (1993). Local consonance and the relationship between timbre and scale. <i>JASA, 94</i>, 1218–1228.</li>
+      <li>Sethares, W. A. (2005). <i>Tuning, Timbre, Spectrum, Scale</i> (2nd ed.). Springer.</li>
+      <li>Terhardt, E. (1974). Pitch, consonance, and harmony. <i>JASA, 55</i>, 1061–1069.</li>
+      <li>Zwicker, E., &amp; Terhardt, E. (1980). Analytical expressions for critical-band rate and critical bandwidth. <i>JASA, 68</i>, 1523–1525.</li>
+    </ol>
   </section>
 </main>
 
-<footer class="wrap foot">made for a music perception &amp; cognition course</footer>
+<footer class="wrap foot">Last updated November 2026.</footer>
 
 <script src="assets/model.js"></script>
 <script src="assets/audio.js"></script>
