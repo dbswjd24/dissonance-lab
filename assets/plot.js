@@ -9,7 +9,8 @@ const Plot = (() => {
   };
   const fmt = v => (Math.abs(v) >= 100 ? v.toFixed(0) : Math.abs(v) >= 10 ? v.toFixed(1) : v.toFixed(2));
 
-  function frame(container, { width = 860, height = 340, m = { l: 56, r: 16, t: 14, b: 44 } } = {}) {
+  function frame(container, { width = Math.max(340, Math.min(860, (container.clientWidth || 860) - 20)), height = 340, m = { l: 56, r: 16, t: 14, b: 44 } } = {}) {
+    if (width < 600) height = Math.round(height * 0.85);
     container.innerHTML = "";
     const svg = el("svg", { viewBox: `0 0 ${width} ${height}`, class: "chart", role: "img" }, container);
     return { svg, W: width - m.l - m.r, H: height - m.t - m.b, m, width, height };
@@ -22,7 +23,7 @@ const Plot = (() => {
     const sy = y => H - ((y - yMin) / (yMax - yMin || 1)) * H;
     for (let i = 0; i <= yTicks; i++) {
       const v = yMin + ((yMax - yMin) * i) / yTicks;
-      el("line", { x1: 0, x2: W, y1: sy(v), y2: sy(v), class: "grid" }, g);
+      el("line", { x1: 0, x2: W, y1: sy(v), y2: sy(v), class: "gl" }, g);
       el("text", { x: -8, y: sy(v) + 4, class: "tick", "text-anchor": "end" }, g).textContent = fmt(v);
     }
     (xTicks || []).forEach(v => {
