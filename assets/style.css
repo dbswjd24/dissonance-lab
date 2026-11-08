@@ -37,6 +37,7 @@
 
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
+html { scrollbar-gutter: stable; overflow-y: scroll; }
 html, body { margin: 0; background: var(--bg); color: var(--ink); }
 body { font: 18px/1.6 var(--serif); }
 .wrap { max-width: 760px; margin: 0 auto; padding: 0 16px; }
