@@ -2,6 +2,9 @@
 
 **A computational model of sensory dissonance, tested against listeners.**
 
+Live site: <https://dbswjd24.github.io/dissonance-lab/>  
+Code: <https://github.com/dbswjd24/dissonance-lab>
+
 Dissonance Lab implements the critical-band theory of sensory dissonance
 (Plomp & Levelt 1965; Sethares 1993; Hutchinson & Knopoff 1978) as:
 
