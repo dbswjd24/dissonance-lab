@@ -144,7 +144,7 @@
     const { freqs, bad } = parseNotes();
     $("h-err").textContent = bad.length ? `Couldn't read: ${bad.join(", ")}. Try names like C4, F#3, Bb2.` : "";
     if (!freqs.length) return;
-    const data = ORDER.map((k, i) => ({ key: k, label: RECIPES[k].short, value: Model.roughness(Model.chord(freqs, Model.TIMBRES[k].partials), h.model.value) }));
+    const data = ORDER.map((k, i) => ({ key: k, label: RECIPES[k].short, cls: "c" + i, value: Model.roughness(Model.chord(freqs, Model.TIMBRES[k].partials), h.model.value) }));
     Plot.bars($("h-chart"), data, { yLabel: "roughness", bottom: 80 });
     $("h-play").innerHTML = "";
     data.forEach((d, i) => {
