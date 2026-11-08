@@ -1,7 +1,17 @@
 # Paper outline (7-10 pages)
 
-Working title: **Can roughness explain consonance? A computational test of
-critical-band dissonance models against listener judgments**
+Working title: **Sensation or learning? A computational test of roughness
+and harmonicity accounts of consonance in musicians and non-musicians**
+
+**Thesis.** Sensory roughness (Plomp & Levelt, 1965) predicts the broad
+ordering of intervals for complex tones, but it does not explain consonance
+*preference*. Preferences follow harmonicity, which is learned and grows with
+musical exposure. Prediction: a harmonicity measure (Tenney height) will fit
+listener ratings better than the roughness model, and the advantage will be
+larger for musicians than for non-musicians (McDermott, Lehr & Oxenham, 2010;
+Cousineau, McDermott & Peretz, 2012; McDermott et al., 2016).
+
+Code: link the GitHub repository and the live GitHub Pages site here.
 
 ## 1. Introduction (about 1 page)
 - Consonance and dissonance from Pythagoras to Helmholtz (Unit 4 history).
@@ -53,8 +63,18 @@ critical-band dissonance models against listener judgments**
 
 ## 6. Conclusion (about 0.5 page)
 
-## References
-Glasberg & Moore 1990; Hutchinson & Knopoff 1978; Kameoka & Kuriyagawa 1969;
-Malmberg 1918; McDermott, Lehr & Oxenham 2010; Parncutt 1989; Plomp & Levelt
-1965; Schwartz, Howe & Purves 2003; Sethares 1993, 2005; Terhardt 1974, 1977;
-Wright & Bregman 1987; Zwicker & Terhardt 1980.
+## References (peer-reviewed core)
+
+1. Plomp, R., & Levelt, W. J. M. (1965). Tonal consonance and critical bandwidth. *JASA, 38*, 548-560.
+2. Sethares, W. A. (1993). Local consonance and the relationship between timbre and scale. *JASA, 94*, 1218-1228.
+3. Hutchinson, W., & Knopoff, L. (1978). The acoustic component of Western consonance. *Interface, 7*, 1-29.
+4. McDermott, J. H., Lehr, A. J., & Oxenham, A. J. (2010). Individual differences reveal the basis of consonance. *Current Biology, 20*(11), 1035-1041. Harmonicity, not beating, predicts preference, and it correlates with years of training. This is the main support for the thesis.
+5. Cousineau, M., McDermott, J. H., & Peretz, I. (2012). The basis of musical consonance as revealed by congenital amusia. *PNAS, 109*(48), 19858-19863. Amusics dislike beating normally but show no consonance preference, which argues against roughness as the basis of preference.
+6. McDermott, J. H., Schultz, A. F., Undurraga, E. A., & Godoy, R. A. (2016). Indifference to dissonance in native Amazonians reveals cultural variation in music perception. *Nature, 535*, 547-550. Evidence for a top-down, cultural account.
+7. Bidelman, G. M., & Krishnan, A. (2009). Neural correlates of consonance, dissonance, and the hierarchy of musical pitch in the human brainstem. *Journal of Neuroscience, 29*(42), 13165-13171. Neural pitch salience correlates with consonance ratings.
+8. Bowling, D. L., Purves, D., & Gill, K. Z. (2018). Vocal similarity predicts the relative attraction of musical chords. *PNAS, 115*(1), 216-221. Proposes an alternative account (similarity to voiced speech).
+9. Malmberg, C. F. (1918). The perception of consonance and dissonance. *Psychological Monographs, 25*, 93-133. Source of the benchmark ranking.
+10. Glasberg, B. R., & Moore, B. C. J. (1990). Derivation of auditory filter shapes from notched-noise data. *Hearing Research, 47*, 103-138.
+
+Other: Kameoka & Kuriyagawa 1969; Parncutt 1989; Sethares 2005; Terhardt 1974;
+Zwicker & Terhardt 1980; Wright & Bregman 1987.

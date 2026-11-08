@@ -26,8 +26,10 @@
   <section id="v-home" class="view active">
     <p>Some intervals sound smooth and others sound harsh. One explanation is mechanical. Two partials that land close together on the basilar membrane
       interfere, and we hear that as roughness (Plomp &amp; Levelt, 1965). The other explanation is learned. We like the intervals our musical culture taught us to like.</p>
-    <p>This site implements the first explanation as a model and tests it against people. If the model matches non-musicians better than musicians,
-      that suggests training adds something on top of the ear.</p>
+    <p>This site implements the first explanation as a model and tests it against people. My thesis is that roughness predicts the rough
+      ordering of intervals but not listeners' preferences. Preferences should follow harmonicity, which is learned and grows with musical training.
+      If that is right, a ratio-simplicity measure should fit listeners better than the roughness model, and the gap should be larger for musicians
+      (McDermott, Lehr &amp; Oxenham, 2010; McDermott et al., 2016).</p>
 
     <h2>What's here</h2>
     <dl class="index">
@@ -188,8 +190,9 @@
     <p class="eq">g(y) = ( e · 4y · e<sup>−4y</sup> )²,  y = Δf / CB(f̄)</p>
     <p>CB can be Zwicker and Terhardt's critical bandwidth, 25 + 75(1 + 1.4(f/1000)²)<sup>0.69</sup>, or Glasberg and Moore's ERB,
       24.7(4.37f/1000 + 1), the formula given in Unit 4.</p>
-    <p><b>Ratio baseline.</b> Tenney height, log₂(p·q) for an interval p/q. It isn't a hearing model. It stands in for the idea that we judge
-      intervals by how simple their ratios are.</p>
+    <p><b>Harmonicity baseline.</b> Tenney height, log₂(p·q) for an interval p/q. It isn't a hearing model. It is a simple stand-in for harmonicity:
+      intervals with simpler ratios share more harmonics, so together they sound more like a single harmonic tone. McDermott, Lehr and Oxenham (2010) and
+      Cousineau, McDermott and Peretz (2012) found that harmonicity predicts consonance preferences better than beating does.</p>
 
     <h3>What the model doesn't include</h3>
     <ul>
@@ -201,10 +204,15 @@
 
     <h3>References</h3>
     <ol class="refs">
+      <li>Bidelman, G. M., &amp; Krishnan, A. (2009). Neural correlates of consonance, dissonance, and the hierarchy of musical pitch in the human brainstem. <i>Journal of Neuroscience, 29</i>(42), 13165–13171.</li>
+      <li>Bowling, D. L., Purves, D., &amp; Gill, K. Z. (2018). Vocal similarity predicts the relative attraction of musical chords. <i>PNAS, 115</i>(1), 216–221.</li>
+      <li>Cousineau, M., McDermott, J. H., &amp; Peretz, I. (2012). The basis of musical consonance as revealed by congenital amusia. <i>PNAS, 109</i>(48), 19858–19863.</li>
       <li>Glasberg, B. R., &amp; Moore, B. C. J. (1990). Derivation of auditory filter shapes from notched-noise data. <i>Hearing Research, 47</i>, 103–138.</li>
       <li>Hutchinson, W., &amp; Knopoff, L. (1978). The acoustic component of Western consonance. <i>Interface, 7</i>, 1–29.</li>
       <li>Kameoka, A., &amp; Kuriyagawa, M. (1969). Consonance theory, parts I and II. <i>JASA, 45</i>, 1451–1469.</li>
       <li>Malmberg, C. F. (1918). The perception of consonance and dissonance. <i>Psychological Monographs, 25</i>, 93–133.</li>
+      <li>McDermott, J. H., Lehr, A. J., &amp; Oxenham, A. J. (2010). Individual differences reveal the basis of consonance. <i>Current Biology, 20</i>(11), 1035–1041.</li>
+      <li>McDermott, J. H., Schultz, A. F., Undurraga, E. A., &amp; Godoy, R. A. (2016). Indifference to dissonance in native Amazonians reveals cultural variation in music perception. <i>Nature, 535</i>, 547–550.</li>
       <li>Plomp, R., &amp; Levelt, W. J. M. (1965). Tonal consonance and critical bandwidth. <i>JASA, 38</i>, 548–560.</li>
       <li>Sethares, W. A. (1993). Local consonance and the relationship between timbre and scale. <i>JASA, 94</i>, 1218–1228.</li>
       <li>Sethares, W. A. (2005). <i>Tuning, Timbre, Spectrum, Scale</i> (2nd ed.). Springer.</li>
