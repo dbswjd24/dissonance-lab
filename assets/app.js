@@ -350,6 +350,17 @@
     }, 200);
   });
 
+  // ---------------------------------------------------------------- theme
+  const themeBtn = $("theme-toggle");
+  const setThemeLabel = () => (themeBtn.textContent = document.documentElement.dataset.theme === "dark" ? "Light mode" : "Dark mode");
+  setThemeLabel();
+  themeBtn.addEventListener("click", () => {
+    const dark = document.documentElement.dataset.theme !== "dark";
+    if (dark) document.documentElement.dataset.theme = "dark"; else delete document.documentElement.dataset.theme;
+    try { localStorage.setItem("theme", dark ? "dark" : "light"); } catch (e) { /* storage unavailable */ }
+    setThemeLabel();
+  });
+
   // ---------------------------------------------------------------- start
   const initial = location.hash.slice(1);
   go(["explore", "chords", "study", "about"].includes(initial) ? initial : "home");

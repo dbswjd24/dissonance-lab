@@ -20,21 +20,19 @@
   --serif: Charter, "Bitstream Charter", "Iowan Old Style", "Sitka Text", Cambria, Georgia, serif;
   --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #1c1b22;
-    --ink: #ece9f3;
-    --muted: #a8a3b6;
-    --faint: #34323d;
-    --rule: #4a4757;
-    --link: #b3a6f5;
-    --mark: #f0a088;
-    --lav-soft: #2e2a42;
-    --peach-soft: #3a2c28;
-    --mint-soft: #22352d;
-    --sky-soft: #22303f;
-    --line-main: #b3a6f5;
-  }
+:root[data-theme="dark"] {
+  --bg: #1c1b22;
+  --ink: #ece9f3;
+  --muted: #a8a3b6;
+  --faint: #34323d;
+  --rule: #4a4757;
+  --link: #b3a6f5;
+  --mark: #f0a088;
+  --lav-soft: #2e2a42;
+  --peach-soft: #3a2c28;
+  --mint-soft: #22352d;
+  --sky-soft: #22303f;
+  --line-main: #b3a6f5;
 }
 
 * { box-sizing: border-box; }
@@ -58,6 +56,11 @@ sup, sub { line-height: 0; }
 nav { display: flex; flex-wrap: wrap; gap: 0 22px; padding-bottom: 10px; font-size: .95rem; }
 nav a { color: var(--muted); text-decoration: none; }
 nav a:hover { color: var(--ink); }
+.theme-toggle {
+  margin-left: auto; font: inherit; font-size: .9rem; color: var(--muted); background: transparent;
+  border: 1px solid var(--rule); border-radius: 999px; padding: 1px 12px; cursor: pointer;
+}
+.theme-toggle:hover { color: var(--ink); border-color: var(--lav); }
 nav a.on { color: var(--ink); text-decoration: underline; text-decoration-color: var(--lav); text-decoration-thickness: 3px; text-underline-offset: 7px; }
 
 main { padding-top: 28px; padding-bottom: 40px; }

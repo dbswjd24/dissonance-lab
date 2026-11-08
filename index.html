@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dissonance Lab</title>
   <meta name="description" content="A roughness model of sensory dissonance, with a listening study comparing its predictions to listeners.">
-  <link rel="stylesheet" href="assets/style.css?v=4">
+  <script>
+    try { if (localStorage.getItem("theme") === "dark") document.documentElement.dataset.theme = "dark"; } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="assets/style.css?v=5">
 </head>
 <body>
 <header class="wrap masthead">
@@ -17,6 +20,7 @@
     <a href="#chords" data-go="chords">Chords</a>
     <a href="#study" data-go="study">Study</a>
     <a href="#about" data-go="about">Notes</a>
+    <button class="theme-toggle" id="theme-toggle" type="button"></button>
   </nav>
 </header>
 
@@ -224,9 +228,9 @@
 
 <footer class="wrap foot">Last updated November 2026.</footer>
 
-<script src="assets/model.js?v=4"></script>
-<script src="assets/audio.js?v=4"></script>
-<script src="assets/plot.js?v=4"></script>
-<script src="assets/app.js?v=4"></script>
+<script src="assets/model.js?v=5"></script>
+<script src="assets/audio.js?v=5"></script>
+<script src="assets/plot.js?v=5"></script>
+<script src="assets/app.js?v=5"></script>
 </body>
 </html>

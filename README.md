@@ -36,22 +36,6 @@ Model predictions to test:
 | Bright orchestration makes the same chord rougher (Schoenberg *Farben*, Unit 4) | Chords tab, `fig4` |
 | Model rank order of dyads matches listeners' rank order | `fig2`, `fig5`, `correlations.csv` |
 
-## Run the website
-
-This is a static site with no build step and no dependencies.
-
-```bash
-python3 -m http.server 8000
-```
-
-Then open <http://localhost:8000>.
-
-### Publish with GitHub Pages
-
-1. Push this folder to a GitHub repository.
-2. Go to **Settings → Pages**, then set **Source: Deploy from a branch** with branch `main` and folder `/ (root)`.
-3. The site goes live at `https://<username>.github.io/<repo>/`.
-
 ## Run the analysis
 
 ```bash
